@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MariOla — La mar de lista</title>
+  <meta name="description" content="Previsión meteorológica marina para el litoral español: viento, olas y recomendaciones para surf, paddle-surf y kite-surf en tus playas favoritas.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/beaches.js" defer></script>
+  <script src="js/forecast.js" defer></script>
+  <script src="js/ui.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <!-- Skip link (visible al recibir foco) -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- Live region para anuncios dinámicos a lectores de pantalla -->
+  <div id="live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Pantalla 1: Landing -->
+  <section id="screen-landing" class="screen screen-landing active" aria-label="Bienvenida a MariOla">
+    <!-- Vídeo de portada (se controla con el toggle de animaciones) -->
+    <video
+      id="landing-video"
+      class="landing-video"
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-hidden="true"
+    >
+      <source src="video/cover-1080.mp4" type="video/mp4">
+    </video>
+    <!-- Velo oscuro para garantizar contraste AA del texto sobre el vídeo -->
+    <div class="landing-scrim" aria-hidden="true"></div>
+
+    <div class="landing-content">
+      <h1 class="landing-logo">
+        <span class="landing-logo__mari">Mari</span><span class="landing-logo__ola">Ola</span>
+      </h1>
+      <p class="landing-tagline">La mar de lista</p>
+      <p class="landing-copy">
+        MariOla te ayuda a conocer el estado del viento y las olas de tu playa favorita.
+        Aprovecha tus días de playa sin que la sombrilla salga volando o la arena te dispare
+        como los mosquitos. Disfruta de tu tabla de surf, paddle-surf o kite-surf sin que el
+        viaje haya sido en balde.
+      </p>
+      <button type="button" id="cta-enter" class="cta-button">
+        Haz clic para entrar <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Pantalla 2: Home -->
+  <section id="screen-home" class="screen" aria-label="Aplicación MariOla" hidden>
+    <header class="home-header">
+      <div class="home-header__inner">
+        <p class="home-header__brand">
+          <span class="home-header__logo">
+            <span class="home-header__logo-mari">Mari</span><span class="home-header__logo-ola">Ola</span>
+          </span>
+          <span class="home-header__tagline">La mar de lista</span>
+        </p>
+
+        <!-- Controles de accesibilidad sticky en el header (compactos, sólo iconos) -->
+        <div class="home-header__controls" role="group" aria-label="Controles de accesibilidad">
+          <button type="button" class="header-ctrl" data-control="motion" aria-pressed="true" aria-label="Animaciones activadas. Pulsa para pausarlas.">
+            <span class="header-ctrl__icon" aria-hidden="true">🎬</span>
+          </button>
+          <button type="button" class="header-ctrl" data-control="sound" aria-pressed="false" aria-label="Sonido apagado. Pulsa para activarlo.">
+            <span class="header-ctrl__icon" aria-hidden="true">🔇</span>
+          </button>
+        </div>
+
+        <span id="header-count" class="home-header__count" aria-live="polite" aria-atomic="true"></span>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="home-main">
+      <!-- Selector de playas -->
+      <section class="beach-selector" aria-labelledby="beach-selector-heading">
+        <h2 id="beach-selector-heading" class="section-heading">Elige tus playas favoritas</h2>
+        <p class="section-subtitle">
+          Busca por nombre o por provincia y selecciona todas las que quieras.
+        </p>
+
+        <div class="combobox-wrapper">
+          <label for="beach-search" class="sr-only">Buscar playa</label>
+          <input
+            type="text"
+            id="beach-search"
+            class="combobox-input"
+            role="combobox"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-owns="beach-listbox"
+            aria-controls="beach-listbox"
+            aria-autocomplete="list"
+            placeholder="Escribe el nombre de una playa…"
+            autocomplete="off"
+          >
+          <ul
+            id="beach-listbox"
+            class="combobox-listbox"
+            role="listbox"
+            aria-multiselectable="true"
+            aria-label="Playas disponibles"
+            hidden
+          ></ul>
+        </div>
+
+        <div
+          id="selected-chips"
+          class="chips"
+          aria-label="Playas seleccionadas actualmente"
+        ></div>
+      </section>
+
+      <!-- Selector de día (oculto hasta que haya playas seleccionadas) -->
+      <div id="day-selector-section" class="day-selector-section" hidden>
+        <h2 class="section-heading">Elige el día</h2>
+        <div
+          id="day-tabs"
+          class="day-tabs"
+          role="tablist"
+          aria-label="Día de la previsión"
+        ></div>
+      </div>
+
+      <!-- Contenedor de cards de playa -->
+      <section
+        id="cards-container"
+        class="cards-container"
+        aria-label="Previsiones por playa"
+      >
+        <div id="empty-state" class="empty-state">
+          <svg viewBox="0 0 120 60" aria-hidden="true" focusable="false" class="empty-state__wave">
+            <path d="M0,40 C20,10 40,55 60,30 C80,5 100,50 120,25 L120,60 L0,60 Z" fill="#aed6f1"/>
+            <path d="M0,48 C20,28 40,62 60,42 C80,22 100,58 120,38 L120,60 L0,60 Z" fill="#5dade2"/>
+          </svg>
+          <p class="empty-state__title">Aún no has seleccionado ninguna playa</p>
+          <p class="empty-state__text">
+            Empieza escribiendo arriba para encontrar la tuya y ver su previsión.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="home-footer">
+      <p class="home-footer__credit">
+        Sound Effect by
+        <a href="https://pixabay.com/es/users/stereogenicstudio-50756880/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=404144"
+           target="_blank" rel="noopener noreferrer">Stereogenic Studio</a>
+        from
+        <a href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=404144"
+           target="_blank" rel="noopener noreferrer">Pixabay</a>
+      </p>
+      <p class="home-footer__credit">
+        Vídeo de
+        <a href="https://pixabay.com/es/users/jayshawflybydrones-34797800/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=video&amp;utm_content=159002"
+           target="_blank" rel="noopener noreferrer">Jay Shaw</a>
+        de
+        <a href="https://pixabay.com/es//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=video&amp;utm_content=159002"
+           target="_blank" rel="noopener noreferrer">Pixabay</a>
+      </p>
+      <p class="home-footer__signature">
+        MariOla conceptualizada y diseñada con cariño y amor al mar por
+        <a href="https://albertomartinfernandez.com" target="_blank" rel="noopener noreferrer">Alberto Martín</a>
+      </p>
+    </footer>
+  </section>
+
+  <!-- Controles flotantes de accesibilidad: visibles SOLO en la landing.
+       En la home se ocultan vía CSS (#screen-landing[hidden] ~ .a11y-controls)
+       y aparecen sus equivalentes compactos en el header sticky. -->
+  <div class="a11y-controls" role="group" aria-label="Controles de accesibilidad">
+    <button type="button" data-control="motion" class="a11y-controls__btn" aria-pressed="true">
+      <span class="a11y-controls__icon" aria-hidden="true">🎬</span>
+      <span class="a11y-controls__text">Animaciones</span>
+      <span class="a11y-controls__state" aria-hidden="true">activadas</span>
+    </button>
+    <button type="button" data-control="sound" class="a11y-controls__btn" aria-pressed="false">
+      <span class="a11y-controls__icon" aria-hidden="true">🔇</span>
+      <span class="a11y-controls__text">Sonido de playa</span>
+      <span class="a11y-controls__state" aria-hidden="true">apagado</span>
+    </button>
+  </div>
+
+  <!-- Sonido ambiente de playa (real). Se reproduce en bucle al activarlo. -->
+  <audio id="beach-audio" loop preload="none">
+    <source src="sounds/stereogenicstudio-beach-02-404144.mp3" type="audio/mpeg">
+  </audio>
+</body>
+</html>

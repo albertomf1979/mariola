@@ -1,0 +1,1499 @@
+/* ============================================================
+   MariOla — Estilos globales
+   ============================================================ */
+
+/* ----- Custom properties: color y tipografía ----- */
+:root {
+  /* Paleta azul marino */
+  --blue-900: #0a2540;
+  --blue-800: #0d3060;
+  --blue-700: #1a5276;
+  --blue-500: #2980b9;
+  --blue-400: #3498db;
+  --blue-300: #5dade2;
+  --blue-200: #aed6f1;
+  --blue-100: #d6eaf8;
+  --blue-50:  #eaf4fb;
+
+  /* Acento */
+  --yellow:   #f9c74f;
+  --yellow-dark: #e0a800;
+
+  /* Semáforo de condiciones */
+  --green-600: #1e8449;
+  --green-100: #d5f5e3;
+  --amber-600: #d35400;
+  --amber-100: #fdebd0;
+  --red-600:   #c0392b;
+  --red-100:   #fadbd8;
+
+  /* Neutros */
+  --white: #ffffff;
+  --black: #000000;
+  --text-dark: #0a2540;
+
+  /* Tipografía */
+  --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 2.5rem;
+  --fs-4xl: 3.5rem;
+
+  /* Focus */
+  --focus-color: #005fcc;
+
+  /* Espacios y radios */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+}
+
+/* ----- Reset base ----- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  color: var(--text-dark);
+  background-color: var(--blue-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ----- Accesibilidad: utilidades ----- */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-3) var(--space-4);
+  background: var(--blue-900);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* ----- Focus visible global (WCAG 2.4.7) ----- */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ----- Gestión de pantallas (SPA) ----- */
+.screen {
+  display: none;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* ============================================================
+   Pantalla 1 — Landing
+   ============================================================ */
+.screen-landing {
+  position: relative;
+  overflow: hidden;
+  /* Fallback visible mientras carga el vídeo */
+  background: linear-gradient(
+    180deg,
+    var(--blue-500) 0%,
+    var(--blue-700) 50%,
+    var(--blue-900) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8) var(--space-6);
+  color: var(--white);
+}
+
+/* Vídeo de portada: cubre toda la pantalla por detrás del contenido */
+.landing-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Velo de contraste: oscurece el vídeo para que el texto blanco cumpla
+   WCAG 2.1 AA (≥ 4.5:1). La opacidad mínima (0.70) garantiza el contraste
+   incluso si el fotograma de vídeo bajo el texto es muy claro. */
+.landing-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 37, 64, 0.78) 0%,
+    rgba(10, 37, 64, 0.70) 40%,
+    rgba(10, 37, 64, 0.74) 75%,
+    rgba(10, 37, 64, 0.86) 100%
+  );
+}
+
+/* Contenido central */
+.landing-content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  text-align: center;
+}
+
+.landing-logo {
+  font-size: var(--fs-4xl);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-2);
+  line-height: 1;
+}
+
+.landing-logo__mari {
+  color: var(--white);
+  font-weight: 400;
+}
+
+.landing-logo__ola {
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.landing-tagline {
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: var(--fs-sm);
+  margin-bottom: var(--space-8);
+  color: var(--blue-100);
+}
+
+.landing-copy {
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  margin-bottom: var(--space-8);
+  color: var(--white);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CTA */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 56px;
+  min-width: 44px;
+  padding: var(--space-4) var(--space-8);
+  background: var(--yellow);
+  color: var(--blue-900);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.cta-button:hover {
+  background: var(--yellow-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ----- Responsive landing ----- */
+@media (max-width: 600px) {
+  .landing-logo {
+    font-size: var(--fs-3xl);
+  }
+  .landing-copy {
+    font-size: var(--fs-base);
+  }
+  .landing-content {
+    margin-bottom: 0;
+  }
+}
+
+/* ============================================================
+   Pantalla 2 — Home
+   ============================================================ */
+
+/* ----- Header sticky ----- */
+.home-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--blue-900);
+  color: var(--white);
+  height: 60px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.home-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.home-header__brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: 0;
+  min-width: 0;
+}
+
+.home-header__logo {
+  font-size: var(--fs-xl);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.home-header__logo-mari {
+  color: var(--white);
+}
+
+.home-header__logo-ola {
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.home-header__tagline {
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: var(--fs-xs);
+  color: var(--blue-200);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-header__count {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--yellow);
+  white-space: nowrap;
+}
+
+.home-header__count:empty {
+  display: none;
+}
+
+/* ----- Controles compactos en el header sticky ----- */
+.home-header__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+
+.header-ctrl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+
+.header-ctrl:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.header-ctrl:active {
+  transform: scale(0.94);
+}
+
+.header-ctrl:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.header-ctrl[aria-pressed="true"] {
+  background-color: var(--yellow);
+  color: var(--blue-900);
+  border-color: var(--yellow);
+}
+
+.header-ctrl__icon {
+  font-size: var(--fs-md);
+  line-height: 1;
+}
+
+/* ----- Main ----- */
+.home-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4) var(--space-12);
+}
+
+.home-main:focus {
+  outline: none;
+}
+
+.section-heading {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--blue-900);
+  margin-bottom: var(--space-2);
+}
+
+.section-subtitle {
+  font-size: var(--fs-base);
+  color: var(--blue-700);
+  margin-bottom: var(--space-4);
+}
+
+.beach-selector {
+  margin-bottom: var(--space-8);
+}
+
+/* ----- Combobox: input ----- */
+.combobox-wrapper {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.combobox-input {
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-3) var(--space-4);
+  font-family: inherit;
+  font-size: var(--fs-base);
+  color: var(--text-dark);
+  background-color: var(--white);
+  border: 2px solid var(--blue-300);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.combobox-input::placeholder {
+  color: var(--blue-700);
+  opacity: 0.7;
+}
+
+.combobox-input:hover {
+  border-color: var(--blue-500);
+}
+
+.combobox-input:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+  border-color: var(--blue-500);
+}
+
+/* ----- Combobox: dropdown listbox ----- */
+.combobox-listbox {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--space-2);
+  list-style: none;
+  background-color: var(--white);
+  border: 1px solid var(--blue-200);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(10, 37, 64, 0.15);
+}
+
+.combobox-listbox[hidden] {
+  display: none;
+}
+
+.combobox-empty {
+  padding: var(--space-3) var(--space-4);
+  color: var(--blue-700);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Cabecera de grupo (CCAA) dentro del listbox */
+.combobox-group-heading {
+  display: block;
+  padding: var(--space-3) var(--space-3) var(--space-1);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--blue-400);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-top: 1px solid var(--blue-100);
+  margin-top: var(--space-1);
+  pointer-events: none;
+}
+
+.combobox-group-heading:first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: var(--space-1);
+}
+
+.combobox-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.combobox-option:hover {
+  background-color: var(--blue-50);
+}
+
+.combobox-option:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: -1px;
+  background-color: var(--blue-50);
+}
+
+.combobox-option.selected {
+  background-color: var(--blue-100);
+}
+
+/* Checkbox visual */
+.combobox-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: 2px solid var(--blue-500);
+  border-radius: 4px;
+  background-color: var(--white);
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.combobox-option.selected .combobox-check {
+  background-color: var(--blue-500);
+  border-color: var(--blue-500);
+}
+
+.combobox-option.selected .combobox-check::after {
+  content: '';
+  width: 6px;
+  height: 11px;
+  border-right: 2.5px solid var(--white);
+  border-bottom: 2.5px solid var(--white);
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.combobox-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.combobox-name {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--blue-900);
+}
+
+.combobox-region {
+  font-size: var(--fs-sm);
+  color: var(--blue-700);
+}
+
+/* ----- Chips reordenables (drag & drop + teclado) ----- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.chips:empty {
+  display: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 48px;
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-2);
+  background-color: var(--blue-100);
+  color: var(--blue-900);
+  border: 1px solid var(--blue-200);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: grab;
+  transition: box-shadow 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+}
+
+.chip:active {
+  cursor: grabbing;
+}
+
+.chip:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+.chip--dragging {
+  opacity: 0.45;
+  cursor: grabbing;
+}
+
+.chip--drop-target {
+  box-shadow: inset 3px 0 0 var(--blue-500);
+  background-color: var(--blue-200);
+}
+
+.chip__grip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 32px;
+  color: var(--blue-500);
+  font-size: 0.95em;
+  letter-spacing: -2px;
+  user-select: none;
+  cursor: grab;
+}
+
+.chip__name {
+  padding: 0 var(--space-2);
+  white-space: nowrap;
+}
+
+.chip__move,
+.chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--blue-900);
+  line-height: 1;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.chip__move {
+  font-size: var(--fs-md);
+  font-weight: 700;
+}
+
+.chip__remove {
+  font-size: var(--fs-lg);
+  margin-right: 0;
+}
+
+.chip__move:hover:not(:disabled),
+.chip__remove:hover {
+  background-color: var(--blue-200);
+}
+
+.chip__move:focus-visible,
+.chip__remove:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+.chip__move:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ----- Selector de día ----- */
+.day-selector-section {
+  margin-bottom: var(--space-8);
+}
+
+.day-selector-section[hidden] {
+  display: none;
+}
+
+.day-tabs {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding: var(--space-2) 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.day-tab {
+  flex: 0 0 auto;
+  min-width: 72px;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--white);
+  color: var(--blue-900);
+  border: 2px solid var(--blue-200);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  scroll-snap-align: start;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.day-tab:hover {
+  border-color: var(--blue-500);
+  background-color: var(--blue-50);
+}
+
+.day-tab:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+.day-tab.active,
+.day-tab[aria-selected="true"] {
+  background-color: var(--blue-500);
+  color: var(--white);
+  border-color: var(--blue-500);
+}
+
+/* ----- Empty state ----- */
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-6);
+  background-color: var(--white);
+  border: 1px dashed var(--blue-200);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.empty-state[hidden] {
+  display: none;
+}
+
+.empty-state__wave {
+  width: 120px;
+  height: 60px;
+  margin-bottom: var(--space-2);
+}
+
+.empty-state__title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--blue-900);
+}
+
+.empty-state__text {
+  font-size: var(--fs-base);
+  color: var(--blue-700);
+  max-width: 360px;
+}
+
+/* ============================================================
+   Card de playa
+   ============================================================ */
+
+.beach-card {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(10, 37, 64, 0.08);
+  border: 1px solid var(--blue-100);
+}
+
+/* ----- Header con gradiente ----- */
+.card-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
+  color: var(--white);
+}
+
+.card-header__title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.card-header__name {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  margin: 0;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.card-header__region {
+  font-size: var(--fs-sm);
+  color: var(--blue-100);
+  margin: 0;
+}
+
+.maps-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  background-color: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+
+.maps-link:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+
+.maps-link:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* ----- Tira meteorológica (tiempo + temperatura) ----- */
+.weather-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--white);
+  border-bottom: 1px solid var(--blue-100);
+}
+
+.weather-strip__icon {
+  font-size: 1.75rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.weather-strip__label {
+  flex: 1;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--blue-900);
+  min-width: 0;
+}
+
+.weather-strip__temp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.weather-strip__temp-nums {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+.weather-strip__temp-min {
+  color: var(--blue-500);
+}
+
+.weather-strip__temp-sep {
+  color: var(--blue-300);
+  font-weight: 400;
+  margin: 0 var(--space-1);
+}
+
+.weather-strip__temp-max {
+  color: var(--amber-600);
+}
+
+/* Tintes suaves según categoría meteorológica */
+.weather-strip.wx-clear    { background: linear-gradient(90deg, var(--white) 40%, #fff8e6 100%); }
+.weather-strip.wx-partly   { background: linear-gradient(90deg, var(--white) 40%, #f1f8fd 100%); }
+.weather-strip.wx-cloudy   { background-color: #f3f4f6; }
+.weather-strip.wx-fog      { background-color: #eceff1; }
+.weather-strip.wx-rain     { background-color: #e8f0f7; }
+.weather-strip.wx-storm    { background-color: #e0e3ea; }
+.weather-strip.wx-snow     { background-color: #f4f9ff; }
+
+/* ----- Banda de condición general ----- */
+.condition-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--blue-100);
+}
+
+.condition-strip__icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.condition-strip__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.condition-strip__advice {
+  font-size: var(--fs-sm);
+  color: var(--blue-700);
+  margin: 0;
+}
+
+/* Tintes de la banda según condición */
+.condition-strip.cond-calm     { background-color: var(--green-100); }
+.condition-strip.cond-moderate { background-color: var(--amber-100); }
+.condition-strip.cond-strong   { background-color: var(--red-100); }
+
+/* Badge: color + icono + texto (color nunca como único canal) */
+.cond-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  border: 1.5px solid currentColor;
+}
+
+.cond-badge.cond-calm     { color: var(--green-600); background-color: var(--white); }
+.cond-badge.cond-moderate { color: var(--amber-600); background-color: var(--white); }
+.cond-badge.cond-strong   { color: var(--red-600);   background-color: var(--white); }
+
+/* ----- Grid de datos (viento / olas) ----- */
+.data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.data-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background-color: var(--blue-50);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--blue-100);
+}
+
+.data-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--blue-400);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.data-value {
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  color: var(--blue-900);
+  line-height: 1;
+  margin: 0;
+}
+
+.data-unit {
+  font-size: var(--fs-base);
+  font-weight: 400;
+  color: var(--blue-700);
+}
+
+.data-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 0;
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--blue-200);
+}
+
+.data-detail__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+}
+
+.data-detail__key {
+  color: var(--blue-700);
+}
+
+.data-detail__val {
+  color: var(--blue-900);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Visualizaciones animadas guiadas por datos (viento/olas/calor)
+   Decorativas (aria-hidden); el valor numérico siempre está como texto.
+   Se pausan con body.motion-off y con prefers-reduced-motion.
+   ============================================================ */
+.viz {
+  display: block;
+}
+
+/* Viento: trazos que viajan a la velocidad real (--viz-dur desde JS) */
+.viz-wind {
+  width: 100%;
+  height: 32px;
+  margin: var(--space-1) 0;
+}
+
+.viz-wind__line {
+  fill: none;
+  stroke: var(--blue-400);
+  stroke-width: var(--viz-stroke, 2.25);
+  stroke-linecap: round;
+  stroke-dasharray: 12 16;
+  animation: viz-wind-flow var(--viz-dur, 4s) linear infinite;
+}
+
+.viz-wind__line--2 {
+  stroke: var(--blue-300);
+  animation-delay: calc(var(--viz-dur, 4s) * -0.35);
+}
+
+.viz-wind__line--3 {
+  stroke: var(--blue-500);
+  animation-delay: calc(var(--viz-dur, 4s) * -0.7);
+}
+
+/* -56 = múltiplo exacto del patrón (12+16) para un bucle sin saltos */
+@keyframes viz-wind-flow {
+  to { stroke-dashoffset: -56; }
+}
+
+/* Olas: mar en miniatura; amplitud = altura real, duración = período real */
+.viz-wave {
+  width: 100%;
+  height: 32px;
+  margin: var(--space-1) 0;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, #f1f8fd 0%, var(--blue-50) 100%);
+}
+
+.viz-wave__back {
+  fill: var(--blue-200);
+  animation: viz-wave-scroll calc(var(--viz-dur, 5s) * 1.7) linear infinite;
+}
+
+.viz-wave__front {
+  fill: var(--blue-400);
+  opacity: 0.85;
+  animation: viz-wave-scroll var(--viz-dur, 5s) linear infinite;
+}
+
+/* -48px = un período exacto de la onda: el bucle es continuo */
+@keyframes viz-wave-scroll {
+  to { transform: translateX(-48px); }
+}
+
+/* Calor: termómetro con mercurio proporcional a la máxima del día */
+.viz-heat {
+  width: 15px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.viz-heat__tube {
+  fill: var(--white);
+  stroke: var(--blue-300);
+  stroke-width: 1.25;
+}
+
+.viz-heat__mercury,
+.viz-heat__bulb {
+  fill: var(--blue-400);
+}
+
+.viz-heat--mild .viz-heat__mercury,
+.viz-heat--mild .viz-heat__bulb {
+  fill: var(--yellow-dark);
+}
+
+.viz-heat--warm .viz-heat__mercury,
+.viz-heat--warm .viz-heat__bulb {
+  fill: var(--amber-600);
+}
+
+.viz-heat--hot .viz-heat__mercury,
+.viz-heat--hot .viz-heat__bulb {
+  fill: var(--red-600);
+  animation: viz-heat-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes viz-heat-pulse {
+  50% { opacity: 0.6; }
+}
+
+/* ----- Fila de actividades ----- */
+.activity-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  padding: 0 var(--space-6) var(--space-6);
+}
+
+.activity-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 96px;
+  padding: var(--space-3);
+  text-align: center;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+}
+
+.activity-pill__icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.activity-pill__name {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+  color: var(--blue-900);
+}
+
+.activity-pill__verdict {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  margin: 0;
+}
+
+.activity-pill--good {
+  background-color: var(--green-100);
+  border-color: var(--green-600);
+}
+.activity-pill--good .activity-pill__verdict { color: var(--green-600); }
+
+.activity-pill--neutral {
+  background-color: var(--amber-100);
+  border-color: var(--amber-600);
+}
+.activity-pill--neutral .activity-pill__verdict { color: var(--amber-600); }
+
+.activity-pill--bad {
+  background-color: var(--red-100);
+  border-color: var(--red-600);
+}
+.activity-pill--bad .activity-pill__verdict { color: var(--red-600); }
+
+/* ----- Estado loading: skeleton shimmer ----- */
+.card-skeleton {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card-skeleton__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.card-skeleton__row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--blue-100) 0%,
+    var(--blue-50)  50%,
+    var(--blue-100) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--radius-md);
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton--header { height: 64px; }
+.skeleton--strip  { height: 56px; }
+.skeleton--block  { height: 120px; }
+.skeleton--pill   { height: 96px; }
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ----- Estado error ----- */
+.card-error {
+  padding: var(--space-6);
+  background-color: var(--red-100);
+  border-left: 4px solid var(--red-600);
+}
+
+.card-error__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--red-600);
+  margin: 0 0 var(--space-2);
+}
+
+.card-error__text {
+  font-size: var(--fs-sm);
+  color: var(--blue-900);
+  margin: 0;
+}
+
+.card-error__retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-6);
+  background-color: var(--red-600);
+  color: var(--white);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  transition: background-color 0.15s ease, transform 0.12s ease;
+}
+
+.card-error__retry:hover {
+  background-color: #a93226;
+}
+
+.card-error__retry:active {
+  transform: scale(0.97);
+}
+
+.card-error__retry:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* ----- Responsive home ----- */
+@media (max-width: 600px) {
+  .home-header__tagline {
+    display: none;
+  }
+  .home-header__count {
+    font-size: var(--fs-xs);
+    /* Sólo muestra el número en mobile para no chocar con los controles */
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .home-header__controls {
+    gap: 4px;
+  }
+  .header-ctrl {
+    width: 40px;
+    height: 40px;
+  }
+  .home-main {
+    padding: var(--space-6) var(--space-3) var(--space-8);
+  }
+  .section-heading {
+    font-size: var(--fs-lg);
+  }
+  .card-header {
+    padding: var(--space-4);
+  }
+  .condition-strip {
+    padding: var(--space-3) var(--space-4);
+  }
+  .data-grid {
+    grid-template-columns: 1fr;
+    padding: var(--space-4);
+  }
+  .activity-row {
+    grid-template-columns: 1fr;
+    padding: 0 var(--space-4) var(--space-4);
+  }
+  .data-value {
+    font-size: var(--fs-2xl);
+  }
+  .card-skeleton__grid {
+    grid-template-columns: 1fr;
+  }
+  .card-skeleton__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   Footer (créditos de sonido)
+   ============================================================ */
+.home-footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+  border-top: 1px solid var(--blue-100);
+}
+
+.home-footer__credit {
+  font-size: var(--fs-xs);
+  color: var(--blue-700);
+  text-align: center;
+}
+
+.home-footer__signature {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--blue-100);
+  font-size: var(--fs-sm);
+  color: var(--blue-900);
+  text-align: center;
+}
+
+.home-footer__credit a,
+.home-footer__signature a {
+  color: var(--blue-500);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.home-footer__credit a:hover,
+.home-footer__signature a:hover {
+  color: var(--blue-700);
+}
+
+.home-footer__credit a:focus-visible,
+.home-footer__signature a:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Barra global de controles de accesibilidad
+   ============================================================ */
+.a11y-controls {
+  position: fixed;
+  z-index: 1000;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background-color: rgba(10, 37, 64, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* En la home, el panel flotante se oculta: sus equivalentes están en el
+   header sticky (.home-header__controls). */
+#screen-landing[hidden] ~ .a11y-controls {
+  display: none;
+}
+
+.a11y-controls__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.a11y-controls__btn:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.a11y-controls__btn:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.a11y-controls__btn[aria-pressed="true"] {
+  background-color: var(--yellow);
+  color: var(--blue-900);
+  border-color: var(--yellow);
+}
+
+.a11y-controls__icon {
+  font-size: var(--fs-md);
+  line-height: 1;
+}
+
+.a11y-controls__state {
+  font-size: var(--fs-xs);
+  opacity: 0.75;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 600px) {
+  .a11y-controls {
+    right: var(--space-2);
+    bottom: var(--space-2);
+    padding: var(--space-1);
+  }
+  .a11y-controls__btn {
+    padding: var(--space-2);
+  }
+  .a11y-controls__text {
+    display: none;
+  }
+  .a11y-controls__state {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Pausa de animaciones controlada por el usuario
+   ============================================================ */
+body.motion-off *,
+body.motion-off *::before,
+body.motion-off *::after {
+  animation-play-state: paused !important;
+}
+/* El vídeo de portada se pausa por JS (videoController); CSS sólo congela
+   el resto de animaciones. */
+
+/* ============================================================
+   prefers-reduced-motion: desactivar animaciones (por sistema)
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
